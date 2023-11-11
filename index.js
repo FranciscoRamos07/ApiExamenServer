@@ -11,17 +11,18 @@ const db = mysql.createConnection({
     port:"3307",
     user: "root",
     password: "",
-    database: "empleados_crud"
+    database: "news"
 });
 
 app.post("/create",(req,res)=>{
-    const nombre = req.body.nombre;
-    const edad = req.body.edad;
-    const pais = req.body.pais;
-    const puesto = req.body.puesto;
-    const anos = req.body.anos;
+    const topic = req.body.topic;
+    const imagen = req.body.imagen;
+    const fecha = req.body.fecha;
+    const subject = req.body.subject;
+    const zona = req.body.zona;
+    
 
-    db.query('INSERT INTO empleados(nombre,edad,pais,puesto,anos) VALUES(?,?,?,?,?)',[nombre,edad,pais,puesto,anos],
+    db.query('INSERT INTO noticias(topic,imagen,fecha,subject,zona) VALUES(?,?,?,?,?)',[topic,imagen,fecha,subject,zona],
     (err,result)=>{
         if(err){
             console.log(err)
@@ -33,9 +34,9 @@ app.post("/create",(req,res)=>{
 });
 
 
-app.get("/empleados",(req,res)=>{
+app.get("/noticias",(req,res)=>{
 
-    db.query('SELECT * FROM empleados',
+    db.query('SELECT * FROM noticias',
     (err,result)=>{
         if(err){
             console.log(err)
@@ -49,18 +50,21 @@ app.get("/empleados",(req,res)=>{
 
 app.put("/update",(req,res)=>{
     const id = req.body.id;
-    const nombre = req.body.nombre;
-    const edad = req.body.edad;
-    const pais = req.body.pais;
-    const puesto = req.body.puesto;
-    const anos = req.body.anos;
+    const topic = req.body.topic;
+    const imagen = req.body.imagen;
+    const fecha = req.body.fecha;
+    const subject = req.body.subject;
+    const zona = req.body.zona;
+    
 
-    db.query('UPDATE empleados SET nombre=?,edad=?,pais=?,puesto=?,anos=? WHERE id=?',[nombre,edad,pais,puesto,anos,id],
+    db.query('UPDATE noticias SET topic=?, imagen=?, fecha=?, subject=?, zona=? WHERE id=?',[topic,imagen,fecha,subject,zona,id],
     (err,result)=>{
         if(err){
             console.log(err)
+            console.log(id)
         }else{
             res.send(result)
+            
         }
     }
     );
@@ -73,7 +77,7 @@ app.delete("/delete/:id",(req,res)=>{
     const id = req.params.id;
 
 
-    db.query('DELETE FROM empleados WHERE id=?',id,
+    db.query('DELETE FROM noticias WHERE id=?',id,
     (err,result)=>{
         if(err){
             console.log(err)
